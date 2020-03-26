@@ -1,31 +1,25 @@
 #include "TreeNode.h"
 #include "PlayField.h"
 
-TreeNode::TreeNode(PlayField newState) {
-    state = newState;
+TreeNode::TreeNode(PlayField newState, TreeNode* parent): state(newState), parent(parent){}
+
+TreeNode& TreeNode::operator[](int index) {
+    return *children[index];
 }
 
-TreeNode TreeNode::operator[](int index) {
-    return children[index];
+const PlayField& TreeNode::value() const {
+    return state;
 }
 
-PlayField TreeNode::value() {
-    return TreeNode::state;
-}
-
-bool TreeNode::isTerminal() {
+bool TreeNode::isTerminal() const {
     return state.checkFieldStatus() != PlayField::fsNormal;
 }
 
-void TreeNode::addChild(TreeNode child) {
-    child.parent = this;
+void TreeNode::addChild(TreeNode* child) {
+    child->parent = this;
     children.push_back(child);
 }
 
-int TreeNode::childCount() {
+int TreeNode::childCount() const{
     return children.size();
-}
-
-TreeNode* TreeNode::GetParent() {
-    return parent;
 }
