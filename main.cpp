@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/*
+ * Третьяков Максим
+ * Студент группы РИ-280017
+ * */
+
+
 void PrintSeparator(){
     static const string separator = "-------";
     cout << separator<< endl;
@@ -27,7 +33,7 @@ void PrintCell(PlayField::CellState cell){
 void PrintField(PlayField field){
     for (int i = 0; i <= 2; i++) {
         for (int j = 0; j <= 2; j++) {
-            PrintCell(field[PlayField::CellIdx::CreateCell(j, i)]);
+            PrintCell(field[PlayField::CellIdx::CreateIndex(j, i)]);
         }
         cout <<"|" << endl;
     }
@@ -41,44 +47,47 @@ void PrintTree(TreeNode root){
     }
 }
 
-void FillTree(TreeNode*& root, PlayField::CellState mark, int index){
-    while(!root->isTerminal()) {
-        for (int i = 0; i < 9; ++i) {
-            auto startField = root->value();
-            if (startField[PlayField::CellIdx::CreateCell(i%3, i/3)] == PlayField::csEmpty) {
-                auto newField = startField.makeMove(PlayField::CellIdx::CreateCell(i % 3, i / 3));
-                auto newRoot = new TreeNode(newField, root);
-                root->addChild(newRoot);
-            }
+void FillTree(TreeNode& root, int (&results)[3]){
+    if(root.isTerminal()){
+        switch (root.value().checkFieldStatus()){
+            case PlayField::fsDraw:
+                results[0]++;
+                break;
+            case PlayField::fsCrossesWin:
+                results[1]++;
+                break;
+            case PlayField::fsNoughtsWin:
+                results[2]++;
+                break;
         }
-//        PrintTree(root);
-        root = &root->operator[](index);
-        mark = mark == PlayField::csCross?PlayField::csNought:PlayField::csCross;
+        return;
+    }
+    auto emptyCells = root.value().getEmptyCells();
+    for (int i = 0; i < emptyCells.size(); i++) {
+        root.addChild(new TreeNode(root.value().makeMove(&emptyCells[i]), nullptr));
+        FillTree(root[i], results);
     }
 }
-
 int main() {
     PlayField startField;
     TreeNode root = TreeNode(startField, nullptr);
+    TreeNode rootForView = TreeNode(startField, nullptr);
+    auto empties = startField.getEmptyCells();
+    for (int i = 0; i < empties.size(); i++) {
+        root.addChild(new TreeNode(root.value().makeMove(&empties[i]), nullptr));
+        rootForView.addChild(new TreeNode(root.value().makeMove(&empties[i]), nullptr));
+    }
     PrintSeparator();
-    TreeNode* temp = &root;
-    FillTree(temp, PlayField::csCross, 0);
-    temp = &root;
-    FillTree(temp, PlayField::csCross, 1);
-    temp = &root;
-    FillTree(temp, PlayField::csCross, 2);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 3);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 4);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 5);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 6);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 7);
-//    temp = &root;
-//    FillTree(temp, PlayField::csCross, 8);
-    PrintTree(root);
+    for (int i = 0; i < 9; i++) {
+        int results[3] = {0,0,0};
+        FillTree(root[i], results);
+        PrintTree(rootForView[i]);
+        cout<< "Crosses win "<< results[1]<<endl;
+        cout<< "Noughts win "<< results[2]<<endl;
+        cout<< "Draws "<< results[0]<<endl;
+        PrintSeparator();
+    }
+    int a;
+    cin>> a;
     return 0;
 }

@@ -13,7 +13,7 @@ public:
     int childCount() const;
     const PlayField& value() const;
 private:
-    int childQty();
+    int childQty() const;
     const PlayField state;
     std::vector<TreeNode*> children;
     const TreeNode* parent = nullptr;
