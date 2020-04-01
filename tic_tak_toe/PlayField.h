@@ -1,6 +1,5 @@
 #ifndef TIC_TAK_TOE_PLAYFIELD_H
 #define TIC_TAK_TOE_PLAYFIELD_H
-#include <iostream>
 #include <vector>
 #include <cassert>
 
@@ -43,12 +42,12 @@ public:
     }
 private:
     CellState state[9]{csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty};
-    PlayField operator+(CellIdx index);
+    PlayField* operator+(CellIdx* index);
     bool isVerticalLine(PlayField::CellState mark, int dif) const;
     bool isHorizontalLine(PlayField::CellState mark, int dif) const;
     bool isDiagonalLine(PlayField::CellState mark) const;
     bool HasWinSequence(PlayField::CellState mark) const;
-    CellState GetLastMove() const;
+    CellState GetNextMove() const;
 };
 
 

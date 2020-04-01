@@ -11,7 +11,7 @@ const PlayField& TreeNode::value() const {
 }
 
 bool TreeNode::isTerminal() const {
-    return childCount() == 0 && childQty() == 0;
+    return childQty() == 0;
 }
 
 void TreeNode::addChild(TreeNode* child) {

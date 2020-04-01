@@ -30,10 +30,11 @@ bool PlayField::HasWinSequence(PlayField::CellState mark) const {
     return horiz || vert || diagonal;
 }
 
-PlayField PlayField::operator+(PlayField::CellIdx index) {
-    assert(state[GetArrayIndexFromCellIdx(&index)] == csEmpty);
-    state[GetArrayIndexFromCellIdx(&index)] = GetLastMove() == csCross ? csNought : csCross;;
-    return *this;
+PlayField* PlayField::operator+(PlayField::CellIdx* index) {
+    assert(state[GetArrayIndexFromCellIdx(index)] == csEmpty);
+    auto newField = new PlayField(*this);
+    newField->makeMove(index);
+    return newField;
 }
 
 PlayField::CellState PlayField::operator[](CellIdx index) const {
@@ -42,11 +43,9 @@ PlayField::CellState PlayField::operator[](CellIdx index) const {
 
 vector<PlayField::CellIdx> PlayField::getEmptyCells() const{
     vector<CellIdx> emptyCells;
-    for (int i = 0; i < 9; i++) {
-        if (state[i] == csEmpty){
+    for (int i = 0; i < 9; i++) 
+        if (state[i] == csEmpty)
             emptyCells.push_back(PlayField::GetCellIdxFromArrayIndex(i));
-        }
-    }
     return emptyCells;
 }
 
@@ -57,7 +56,7 @@ PlayField::FieldStatus PlayField::checkFieldStatus() const {
     bool isNoughtsWin = HasWinSequence(csNought);
     bool isNormal = abs(crossesCount - noughtsCount) < 2;
     bool isMovesEnd = getEmptyCells().empty();
-    FieldStatus isWinOrDraw = isCrossesWin ? fsCrossesWin : isNoughtsWin? fsNoughtsWin : fsDraw;
+    FieldStatus isWinOrDraw = isCrossesWin ? fsCrossesWin : (isNoughtsWin ? fsNoughtsWin : fsDraw);
     if(isCrossesWin || isNoughtsWin || (isNormal && isMovesEnd))
         return isWinOrDraw;
     return isNormal ? fsNormal : fsInvalid;
@@ -66,11 +65,11 @@ PlayField::FieldStatus PlayField::checkFieldStatus() const {
 PlayField PlayField::makeMove(PlayField::CellIdx* index) const{
     assert(state[GetArrayIndexFromCellIdx(index)] == csEmpty);
     PlayField newField = PlayField(*this);
-    newField.state[GetArrayIndexFromCellIdx(index)] = GetLastMove() == csCross ? csNought : csCross;
+    newField.state[GetArrayIndexFromCellIdx(index)] = GetNextMove();
     return newField;
 }
 
-PlayField::CellState PlayField::GetLastMove() const{
+PlayField::CellState PlayField::GetNextMove() const{
     int crossCount = 0 , noughtCount = 0;
     for (auto & i : state) {
         if (i == csCross){
@@ -82,5 +81,5 @@ PlayField::CellState PlayField::GetLastMove() const{
             continue;
         }
     }
-    return crossCount > noughtCount? csCross: csNought;
+    return crossCount > noughtCount? csNought: csCross;
 }
