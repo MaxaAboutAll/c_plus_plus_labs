@@ -6,7 +6,7 @@
 
 class TreeNode{
 public:
-    explicit TreeNode(PlayField newState, TreeNode* parent = nullptr);
+    TreeNode(PlayField newState, TreeNode* parent = nullptr);
     bool isTerminal() const;
     void addChild(TreeNode* child);
     TreeNode& operator[](int index) const;

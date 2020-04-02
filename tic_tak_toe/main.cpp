@@ -67,7 +67,7 @@ void CountResults(TreeNode& root, int (&results)[3]){
         return;
     } 
     auto emptyCells = root.value().getEmptyCells();
-    for (int i = 0; i < emptyCells.size(); i++) {
+    for (int i = 0; i < root.childCount(); i++) {
         CountResults(root[i], results);
     }
 }
@@ -80,7 +80,7 @@ int main() {
     for (int i = 0; i < 9; i++) {
         PrintField(root[i].value());
         int results[3] = {0,0,0};
-        CountResults(root, results);
+        CountResults(root[i], results);
         cout<< "Crosses win "<< results[0]<<endl;
         cout<< "Noughts win "<< results[1]<<endl;
         cout<< "Draws "<< results[2]<<endl;

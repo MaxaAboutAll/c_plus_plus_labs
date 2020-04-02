@@ -2,16 +2,16 @@
 
 using namespace std;
 
-bool PlayField::isVerticalLine(const PlayField::CellState mark, int dif) const {
+bool PlayField::isVerticalLine(const PlayField::CellState mark, const int dif) const {
     for (int y = 0; y < 3; y++)
         if (state[dif][y] != mark)
             return false;
     return true;
 }
 
-bool PlayField::isHorizontalLine(const PlayField::CellState mark, int dif) const {
-        for (auto x : state)
-            if (x[dif] != mark)
+bool PlayField::isHorizontalLine(const PlayField::CellState mark, const int dif) const {
+    for (auto x : state)
+       if (x[dif] != mark)
             return false;
     return true;
 }
@@ -28,7 +28,7 @@ bool PlayField::HasWinSequence(const PlayField::CellState mark) const {
     return horiz || vert || diagonal;
 }
 
-PlayField PlayField::operator+(const PlayField::CellIdx index) const{
+PlayField PlayField::operator+(const PlayField::CellIdx index) const {
     assert(state[index.X()][index.Y()] == csEmpty);
     PlayField newField = PlayField(*this);
     newField.state[index.X()][index.Y()] = GetNextMove();
@@ -39,7 +39,7 @@ PlayField::CellState PlayField::operator[](const CellIdx index) const {
     return state[index.X()][index.Y()];
 }
 
-vector<PlayField::CellIdx> PlayField::getEmptyCells() const{
+vector<PlayField::CellIdx> PlayField::getEmptyCells() const {
     vector<CellIdx> emptyCells;
     for (int x = 0; x < 3; x++)
         for (int y = 0; y < 3; y++)
@@ -62,26 +62,26 @@ PlayField::FieldStatus PlayField::checkFieldStatus() const {
     return isNormal ? fsNormal : fsInvalid;
 }
 
-PlayField PlayField::makeMove(const PlayField::CellIdx index) const{
+PlayField PlayField::makeMove(const PlayField::CellIdx index) const {
     assert(state[index.X()][index.Y()] == csEmpty);
     return PlayField(*this) + index;
 }
 
-PlayField::CellState PlayField::GetNextMove() const{
+PlayField::CellState PlayField::GetNextMove() const {
     int crossCount = 0 , noughtCount = 0;
     CrossesAndNoughtsCount(crossCount, noughtCount);
-    return crossCount > noughtCount? csNought: csCross;
+    return crossCount > noughtCount ? csNought: csCross;
 }
 
 void PlayField::CrossesAndNoughtsCount(int &crossesCount, int &noughtsCount) const {
     for (auto x : state)
         for (int y = 0; y < 3; y++)
             switch (x[y]){
-                case csCross:
-                    crossesCount++;
-                    continue;
                 case csNought:
                     noughtsCount++;
-                    continue;
+                    break;
+                case csCross:
+                    crossesCount++;
+                    break;
             }
 }
