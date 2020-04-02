@@ -15,11 +15,11 @@ public:
             return {x, y};
         }
 
-        int GetX(){
+        int X() const{
             return x;
         }
 
-        int GetY(){
+        int Y() const{
             return y;
         }
     private:
@@ -33,21 +33,16 @@ public:
     CellState operator[](CellIdx index) const;
     std::vector<CellIdx> getEmptyCells() const;
     FieldStatus checkFieldStatus() const;
-    PlayField makeMove(CellIdx* index) const;
-    static int GetArrayIndexFromCellIdx(CellIdx* index){
-        return index->GetX() * 3 + index->GetY();
-    }
-    static PlayField::CellIdx GetCellIdxFromArrayIndex(int index){
-        return PlayField::CellIdx::CreateIndex(index / 3, index % 3);
-    }
+    PlayField makeMove(CellIdx index) const;
 private:
-    CellState state[9]{csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty};
-    PlayField* operator+(CellIdx* index);
+    CellState state[3][3]{csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty};
+    PlayField operator+(CellIdx index) const;
     bool isVerticalLine(PlayField::CellState mark, int dif) const;
     bool isHorizontalLine(PlayField::CellState mark, int dif) const;
     bool isDiagonalLine(PlayField::CellState mark) const;
     bool HasWinSequence(PlayField::CellState mark) const;
     CellState GetNextMove() const;
+    void CrossesAndNoughtsCount(int &crossesCount, int &noughtsCount) const;
 };
 
 

@@ -6,10 +6,10 @@
 
 class TreeNode{
 public:
-    explicit TreeNode(PlayField newState, TreeNode* parent);
+    explicit TreeNode(PlayField newState, TreeNode* parent = nullptr);
     bool isTerminal() const;
     void addChild(TreeNode* child);
-    TreeNode& operator[](int index);
+    TreeNode& operator[](int index) const;
     int childCount() const;
     const PlayField& value() const;
 private:

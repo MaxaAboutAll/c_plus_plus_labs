@@ -1,8 +1,8 @@
 #include "TreeNode.h"
 
-TreeNode::TreeNode(PlayField newState, TreeNode* parent = nullptr): state(newState), parent(parent){}
+TreeNode::TreeNode(PlayField newState, TreeNode* parent): state(newState), parent(parent){}
 
-TreeNode& TreeNode::operator[](int index) {
+TreeNode& TreeNode::operator[](const int index) const{
     return *children[index];
 }
 
@@ -11,10 +11,12 @@ const PlayField& TreeNode::value() const {
 }
 
 bool TreeNode::isTerminal() const {
-    return childQty() == 0;
+    return state.checkFieldStatus() != PlayField::fsNormal && 
+    state.checkFieldStatus() != PlayField::fsInvalid && childQty() == 0;
 }
 
 void TreeNode::addChild(TreeNode* child) {
+    assert(children.size() < 9);
     child->parent = this;
     children.push_back(child);
 }
@@ -24,5 +26,5 @@ int TreeNode::childCount() const{
 }
 
 int TreeNode::childQty() const {
-    return value().checkFieldStatus() == PlayField::fsNormal? (int) state.getEmptyCells().size() - childCount(): 0;
+    return parent == nullptr ? 9: parent->childQty() - 1;
 }
