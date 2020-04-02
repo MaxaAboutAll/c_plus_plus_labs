@@ -12,7 +12,9 @@ const PlayField& TreeNode::value() const {
 
 bool TreeNode::isTerminal() const {
     assert(state.checkFieldStatus() != PlayField::fsInvalid);
-    return state.checkFieldStatus() != PlayField::fsNormal;
+    return state.checkFieldStatus()== PlayField::fsNoughtsWin || 
+    state.checkFieldStatus() == PlayField::fsCrossesWin || 
+    state.checkFieldStatus() == PlayField::fsDraw;
 }
 
 void TreeNode::addChild(TreeNode* child) {
@@ -26,5 +28,5 @@ int TreeNode::childCount() const {
 }
 
 int TreeNode::childQty() const {
-    return (parent == nullptr ? 9: parent->childQty() - 1);
+    return (parent ? parent->childQty() - 1 : 9);
 }
