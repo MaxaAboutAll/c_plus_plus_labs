@@ -13,7 +13,6 @@ private:
     TreeNode* m_root;
     TreeNode* Insert(TreeNode* root, int value);
     TreeNode* Search(TreeNode* root, const int value) const;
-    
 };
 
 
