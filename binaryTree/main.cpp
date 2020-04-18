@@ -29,7 +29,7 @@ void AddToTreeMiddleElement(BinaryTree& tree, const int* arrStart, int length) {
     AddToTreeMiddleElement(tree, arrStart + length / 2 + 1, length % 2 != 0 ? length / 2 : length / 2 - 1);
 }
 
-BinaryTree* CreateMinimalBST(const int* mas, const int end){
+BinaryTree* CreateMinimalBST(const int* mas,const int start, const int end){
     auto tree = new BinaryTree();
     AddToTreeMiddleElement(*tree, mas, end);
     return tree;
@@ -46,7 +46,7 @@ int main() {
     cout<< tree.Search(2)->GetValue() << endl;
     int mas[massLength] = {9, 10, 5, 1, 7};
     selectionSort(mas, massLength);
-    auto minimalTree = CreateMinimalBST(mas, massLength);
+    auto minimalTree = CreateMinimalBST(mas, 0, massLength);
     int c;
     cin>>c;    
     delete minimalTree;
