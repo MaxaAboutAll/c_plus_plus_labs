@@ -6,8 +6,6 @@
 
 using namespace std;
 
-constexpr int massLength = 5;
-
 void selectionSort(int a[], int n) {
     int i, j, min, temp;
     for (i = 0; i < n - 1; i++) {
@@ -46,9 +44,9 @@ int main() {
     if(tree.Search(2))
         cout<< tree.Search(2)->GetValue()<< endl;
     delete &tree;
-    int mas[massLength] = {9, 10, 5, 1, 7};
-    selectionSort(mas, massLength);
-    auto minimalTree = CreateMinimalBST(mas, 0, massLength);
+    int mas[] = {9, 10, 5, 1, 7};
+    selectionSort(mas, sizeof(mas)/sizeof(mas[0]));
+    auto minimalTree = CreateMinimalBST(mas, 0, sizeof(mas)/sizeof(mas[0]));
     int c;
     cin>>c;    
     delete minimalTree;
