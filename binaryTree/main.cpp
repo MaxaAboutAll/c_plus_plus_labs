@@ -43,7 +43,9 @@ int main() {
     tree.Insert(2);
     tree.Insert(1);
     tree.Insert(8);
-    cout<< tree.Search(2)->GetValue() << endl;
+    if(tree.Search(2))
+        cout<< tree.Search(2)->GetValue()<< endl;
+    delete &tree;
     int mas[massLength] = {9, 10, 5, 1, 7};
     selectionSort(mas, massLength);
     auto minimalTree = CreateMinimalBST(mas, 0, massLength);

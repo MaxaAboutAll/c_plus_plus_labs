@@ -4,15 +4,15 @@
 
 class BinaryTree {
 public:
-    BinaryTree();
-    BinaryTree(TreeNode* iRoot);
-    ~BinaryTree();
-    void Insert(int value);
-    TreeNode* Search(const int value) const;
+    BinaryTree() = default;
+    BinaryTree(const int value): m_root(new TreeNode(value)) {}
+    ~BinaryTree() { delete m_root; };
+    void Insert(int value) { Insert(m_root, value); };
+    TreeNode* Search(const int value) const { return Search(m_root, value); };
 private:
-    TreeNode* m_root;
-    TreeNode* Insert(TreeNode* root, int value);
-    TreeNode* Search(TreeNode* root, const int value) const;
+    TreeNode* m_root = nullptr;
+    TreeNode* Insert(TreeNode* const root, const int value);
+    TreeNode* Search(TreeNode* const root, const int value) const;
 };
 
 
