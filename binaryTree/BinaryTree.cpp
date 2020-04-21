@@ -1,19 +1,17 @@
 #include "BinaryTree.h"
 
-TreeNode* BinaryTree::Insert(TreeNode *const root, const int value) {
-    if (root == nullptr){
+TreeNode* BinaryTree::Insert(TreeNode* root, const int value) {
+    if (m_root == nullptr) {
         m_root = new TreeNode(value);
-    } else if (root->GetValue() > value){
-        if (root->GetLeftNode())
-            Insert(root->GetLeftNode(), value);
-        else
-            root->SetLeftNode(new TreeNode(value));
-    } else {
-        if (root->GetRightNode())
-            Insert(root->GetRightNode(), value);
-        else
-            root->SetRightNode(new TreeNode(value));
+        return root;
     }
+    if (root == nullptr){
+        root = new TreeNode(value);
+    } else 
+    if (root->GetValue() > value)
+        root->SetLeftNode(Insert(root->GetLeftNode(), value));
+    else 
+        root->SetRightNode(Insert(root->GetRightNode(), value));
     return root;
 }
 
@@ -22,7 +20,7 @@ TreeNode *BinaryTree::Search(TreeNode *const root, const int value) const {
         return nullptr;
     if (root->GetValue() == value)
         return root;
-    if (root->GetValue() > value)
+    if (value < root->GetValue())
         return Search(root->GetLeftNode(), value);
     else
         return Search(root->GetRightNode(), value);
