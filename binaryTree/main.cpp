@@ -1,6 +1,7 @@
 #include <iostream>
 #include "TreeNode.h"
 #include "BinaryTree.h"
+#include <math.h>
 
 ///Третьяков М. А. Группа РИ-280017
 
@@ -19,17 +20,13 @@ void bubbleSort(int *arr, int size) {
     }
 }
 
-void AddToTreeMiddleElement(BinaryTree& tree, const int* arrStart, const int length) {
-    if (length == 0)
-        return;
-    tree.Insert(*(arrStart + length / 2));
-    AddToTreeMiddleElement(tree, arrStart, length / 2);
-    AddToTreeMiddleElement(tree, arrStart + length / 2 + 1, length % 2 != 0 ? length / 2 : length / 2 - 1);
-}
-
-BinaryTree* CreateMinimalBST(const int* mas, const int start, const int end){
-    auto tree = new BinaryTree();
-    AddToTreeMiddleElement(*tree, mas, end);
+TreeNode* CreateMinimalBST(const int* mas, const int start, const int end){
+    if(end < start)
+        return nullptr;
+    const int mid = (start + end) / 2;
+    auto tree = new TreeNode(mas[mid]);
+    tree->SetLeftNode(CreateMinimalBST(mas, start, mid - 1));
+    tree->SetRightNode(CreateMinimalBST(mas, mid + 1, end));
     return tree;
 }
 
@@ -44,10 +41,10 @@ int main() {
     if(tree.Search(2))
         cout<< tree.Search(2)->GetValue()<< endl;
     int mas[] = {9, 10, 5, 1, 7};
-    bubbleSort(mas, sizeof(mas) / sizeof(mas[0]));
-    auto minimalTree = CreateMinimalBST(mas, 0, sizeof(mas)/sizeof(mas[0]));
+    bubbleSort(mas, sizeof(mas)/sizeof(mas[0]));
+    BinaryTree minimalTree;
+    minimalTree.SetRoot(CreateMinimalBST(mas, 0, sizeof(mas)/sizeof(mas[0]) - 1));
     int c;
     cin>>c;    
-    delete minimalTree;    
     return 0;
 }
