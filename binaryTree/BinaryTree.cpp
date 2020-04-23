@@ -1,10 +1,6 @@
 #include "BinaryTree.h"
 
 TreeNode* BinaryTree::Insert(TreeNode* root, const int value) {
-    if (m_root == nullptr) {
-        m_root = new TreeNode(value);
-        return root;
-    }
     if (root == nullptr){
         root = new TreeNode(value);
     } else 
@@ -15,7 +11,7 @@ TreeNode* BinaryTree::Insert(TreeNode* root, const int value) {
     return root;
 }
 
-TreeNode *BinaryTree::Search(TreeNode *const root, const int value) const {
+TreeNode *BinaryTree::Search(TreeNode *const root, const int value) {
     if (root == nullptr)
         return nullptr;
     if (root->GetValue() == value)

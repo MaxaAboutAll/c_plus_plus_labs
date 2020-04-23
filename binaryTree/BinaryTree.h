@@ -12,8 +12,8 @@ public:
     TreeNode* Search(const int value) const { return Search(m_root, value); };
 private:
     TreeNode* m_root = nullptr;
-    TreeNode* Insert(TreeNode* const root, const int value);
-    TreeNode* Search(TreeNode* const root, const int value) const;
+    static TreeNode* Insert(TreeNode* const root, const int value);
+    static TreeNode* Search(TreeNode* const root, const int value);
 };
 
 
