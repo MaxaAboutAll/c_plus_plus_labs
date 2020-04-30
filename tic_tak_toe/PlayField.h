@@ -34,8 +34,9 @@ public:
     std::vector<CellIdx> getEmptyCells() const;
     FieldStatus checkFieldStatus() const;
     PlayField makeMove(CellIdx index) const;
+    bool operator==(const PlayField& second);
 private:
-    CellState state[3][3]{csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty,csEmpty};
+    CellState state[3][3]{csEmpty};
     PlayField operator+(CellIdx index) const;
     bool isVerticalLine(PlayField::CellState mark, int dif) const;
     bool isHorizontalLine(PlayField::CellState mark, int dif) const;

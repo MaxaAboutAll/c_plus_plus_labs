@@ -85,3 +85,12 @@ void PlayField::CrossesAndNoughtsCount(int &crossesCount, int &noughtsCount) con
                     break;
             }
 }
+
+bool PlayField::operator==(const PlayField &second) {
+    for (int x = 0; x < 3; x++)
+        for (int y = 0; y < 3; y++)
+            if (state[x][y] != second[CellIdx::CreateIndex(x, y)])
+                return false;
+
+    return true;
+}

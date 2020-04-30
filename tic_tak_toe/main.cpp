@@ -2,6 +2,7 @@
 #include <vector>
 #include "PlayField.h"
 #include "TreeNode.h"
+#include "XOPlayer.h"
 #include <string>
 
 using namespace std;
@@ -31,6 +32,7 @@ void PrintCell(PlayField::CellState cell){
 }
 
 void PrintField(PlayField field){
+    PrintSeparator();
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++) {
             PrintCell(field[PlayField::CellIdx::CreateIndex(x, y)]);
@@ -75,19 +77,50 @@ void CountResults(TreeNode& root, int (&results)[3]){
 int main() {
     PlayField startField;
     TreeNode root = TreeNode(startField, nullptr);
-    PrintSeparator();
     FillTree(root);
-    for (int i = 0; i < 9; i++) {
-        PrintField(root[i].value());
-        int results[3] = {0,0,0};
-        CountResults(root[i], results);
-        cout<< "Crosses win "<< results[0]<<endl;
-        cout<< "Noughts win "<< results[1]<<endl;
-        cout<< "Draws "<< results[2]<<endl;
-        PrintSeparator();
-    }
-    
+    cout<<"Хотите поиграть введите 1, хотите увидеть количество побед/поражний/ничиьх введите 0"<<endl; 
     int a;
-    cin>> a;
+    cin >> a;
+    if(a == 0) {
+        for (int i = 0; i < 9; i++) {
+            PrintField(root[i].value());
+            int results[3] = {0, 0, 0};
+            CountResults(root[i], results);
+            cout << "Crosses win " << results[0] << endl;
+            cout << "Noughts win " << results[1] << endl;
+            cout << "Draws " << results[2] << endl;
+            PrintSeparator();
+        }
+    }
+    if( a== 1) {
+        cout << "Select player (0 - Xs, 1 - Os)" << std::endl;
+        int sel_player;
+        cin >> sel_player;
+        XOPlayer player(root, (sel_player == 0 ? PlayField::fsNoughtsWin : PlayField::fsCrossesWin));
+        do {
+            PrintField(player.currentState());
+            if (sel_player == 0) {
+                cout << "Vvedi index x,y 0..2" << endl;
+                int x, y;
+                cin >> x >> y;
+                player.MakeMove(PlayField::CellIdx::CreateIndex(x, y));
+                PrintField(player.currentState());
+                player.MakeMove();
+            } else {
+                player.MakeMove();
+                PrintField(player.currentState());
+                cout << "Vvedi index x,y 0..2" << endl;
+                int x, y;
+                cin >> x >> y;
+                player.MakeMove(PlayField::CellIdx::CreateIndex(x, y));
+            }
+        } while (player.fieldStatus() == PlayField::fsNormal);
+        PrintField(player.currentState());
+        if (player.fieldStatus() == PlayField::fsCrossesWin)
+            cout << "Crosses are win" << endl;
+        if (player.fieldStatus() == PlayField::fsNoughtsWin)
+            cout << "Noughts are win" << endl;
+    }
+    cin >> a;
     return 0;
 }
