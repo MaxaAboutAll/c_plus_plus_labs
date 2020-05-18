@@ -19,11 +19,6 @@ void MatrixBase::operator+=(MatrixBase& iAdd) {
     }
 }
 
-int MatrixBase::getLinearIndexFromMatrix(const unsigned int i, const unsigned int j) const {
-    assert(i < m_size && j < m_size && i >= 0 && j >= 0);
-    return i * m_size + j;
-}
-
 std::ostream &operator<<(std::ostream &out, const MatrixBase &iMatrix) {
     std::string tempStr;
     for (int x = 0; x < iMatrix.m_size; ++x) {

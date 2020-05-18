@@ -13,8 +13,7 @@ public:
     virtual int& element(unsigned int i, unsigned int j) = 0;
     friend std::ostream& operator<< (std::ostream &out, const MatrixBase &iMatrix);
 protected:
-    MatrixBase(unsigned int iSize) : m_size(iSize){}
-    int getLinearIndexFromMatrix(unsigned int i, unsigned int j) const;
+    explicit MatrixBase(unsigned int iSize) : m_size(iSize){}
 private:
     const unsigned int m_size;
 };
