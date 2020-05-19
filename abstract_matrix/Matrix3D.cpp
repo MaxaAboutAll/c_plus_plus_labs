@@ -11,5 +11,5 @@ int &Matrix3D::element(unsigned int i, unsigned int j) {
 Matrix3D::Matrix3D():MatrixBase(dimension){
     for (int x = 0; x < dimension; ++x)
         for (int y = 0; y < dimension; ++y)
-            state[x][y] = x * 3 + y + 1;
+            state[x][y] = x * dimension + y + 1;
 };
