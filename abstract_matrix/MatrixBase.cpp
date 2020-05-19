@@ -33,4 +33,3 @@ std::ostream &operator<<(std::ostream &out, const MatrixBase &iMatrix) {
     out<<tempStr;
     return out;
 }
-
