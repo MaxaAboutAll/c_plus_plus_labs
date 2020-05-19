@@ -4,15 +4,12 @@
 #include "MatrixBase.h"
     class Matrix2D: public MatrixBase {
     public:
-    Matrix2D(): MatrixBase(2){
-        for (int x = 0; x < 2; ++x) 
-        for (int y = 0; y < 2; ++y) 
-            state[x][y] = x * 3 + y + 1;
-    };
+    Matrix2D();
     int element(unsigned int i, unsigned int j) const override;
     int &element(unsigned int i, unsigned int j) override;
     private:
-    int state[2][2];   
+    static constexpr int dimension = 2;
+    int state[dimension][dimension];   
 };
 
 

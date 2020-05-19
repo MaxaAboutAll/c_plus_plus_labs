@@ -23,8 +23,11 @@ std::ostream &operator<<(std::ostream &out, const MatrixBase &iMatrix) {
     std::string tempStr;
     for (int x = 0; x < iMatrix.m_size; ++x) {
         for (int y = 0; y < iMatrix.m_size; ++y) {
-            tempStr += std::to_string(iMatrix.element(x, y)) + "\t";
+            tempStr += std::to_string(iMatrix.element(x, y)) + "|";
         }
+        tempStr += "\n";
+        for (int y = 0; y < iMatrix.m_size; ++y)
+            tempStr += "--";
         tempStr += "\n";
     }
     out<<tempStr;
